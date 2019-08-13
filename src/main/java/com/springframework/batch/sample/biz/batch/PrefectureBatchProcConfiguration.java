@@ -62,7 +62,7 @@ public class PrefectureBatchProcConfiguration {
         return jobBuilders.get("jobPrefectureBatchProc")
                     .repository(jobRepository)
                     .start(stepMultiExecMgr)
-                    .next(stepReadFile)
+//                    .next(stepReadFile)
 //                    .next(stepWriteDb())
                     .build();
     }
@@ -85,7 +85,7 @@ public class PrefectureBatchProcConfiguration {
     @Bean
     public MultiResourceItemReader<FileDataTypeAEntity> readFileReader(FlatFileItemReader<FileDataTypeAEntity> fileItemReader) {
         MultiResourceItemReader<FileDataTypeAEntity> reader = new MultiResourceItemReader<FileDataTypeAEntity>();
-        reader.setResources(new Resource[] { new ClassPathResource("data-files/*.csv") });
+        reader.setResources(new Resource[] { new ClassPathResource("data-files/type-a.csv") });
         reader.setDelegate(fileItemReader);
         return reader;
     }
@@ -172,9 +172,14 @@ public class PrefectureBatchProcConfiguration {
     public ItemWriter<MultiExecMgrEntity> multiExecMgrWriter() {
         return new ItemWriter<MultiExecMgrEntity>() {
 
+            @Autowired
+            private ParametersHolder parametersHolder;
+
             @Override
             public void write(List<? extends MultiExecMgrEntity> items) throws Exception {
-
+                MultiExecMgrEntity item = items.get(0);
+                parametersHolder.setDataItem("MULTI_EXEC_MGR_ENTITY", item);
+                System.out.println();
             }
 
         };
