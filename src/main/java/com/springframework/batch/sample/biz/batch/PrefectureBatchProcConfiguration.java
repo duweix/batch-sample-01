@@ -172,14 +172,10 @@ public class PrefectureBatchProcConfiguration {
     public ItemWriter<MultiExecMgrEntity> multiExecMgrWriter() {
         return new ItemWriter<MultiExecMgrEntity>() {
 
-            @Autowired
-            private ParametersHolder parametersHolder;
-
             @Override
             public void write(List<? extends MultiExecMgrEntity> items) throws Exception {
                 MultiExecMgrEntity item = items.get(0);
-                parametersHolder.setDataItem("MULTI_EXEC_MGR_ENTITY", item);
-                System.out.println();
+                System.out.println(item);
             }
 
         };
